@@ -1,0 +1,35 @@
+name: 'GitHub PR Review Agent'
+description: 'AI-powered Pull Request review using Perplexity API'
+inputs:
+  github_token:
+    description: 'GitHub token'
+    required: true
+  perplexity_api_key:
+    description: 'Perplexity API Key'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r ${{ github.action_path }}/requirements.txt
+      shell: bash
+
+    - name: Run PR Review
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        PERPLEXITY_API_KEY: ${{ inputs.perplexity_api_key }}
+      run: python ${{ github.action_path }}/GithubPRReviewWorkflow.py ${{ github.event.pull_request.html_url }}
+      shell: bash
+
+    - name: Upload PDF Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: pr-review-report
+        path: code_review_report_*.pdf
