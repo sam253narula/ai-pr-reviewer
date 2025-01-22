@@ -27,9 +27,3 @@ runs:
         PERPLEXITY_API_KEY: ${{ inputs.perplexity_api_key }}
       run: python ${{ github.action_path }}/GithubPRReviewWorkflow.py ${{ github.event.pull_request.html_url }}
       shell: bash
-
-    - name: Upload PDF Report
-      uses: actions/upload-artifact@v2
-      with:
-        name: pr-review-report
-        path: code_review_report_*.pdf
