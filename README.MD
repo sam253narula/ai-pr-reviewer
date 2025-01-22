@@ -44,7 +44,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: AI PR Review
-      uses: sam253narula/ai-pr-reviewer@v0.0.5
+      uses: sam253narula/ai-pr-reviewer@v1.0.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         perplexity_api_key: ${{ secrets.PERPLEXITY_API_KEY }}
