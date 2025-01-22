@@ -1,5 +1,9 @@
 name: 'GitHub PR Review Agent'
 description: 'AI-powered Pull Request review using Perplexity API'
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
 inputs:
   github_token:
     description: 'GitHub token'
