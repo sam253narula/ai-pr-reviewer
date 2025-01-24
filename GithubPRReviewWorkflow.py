@@ -107,7 +107,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         repo_or_pr_link = sys.argv[1]
     else:
-        repo_or_pr_link = "https://github.com/sam253narula/ExperimentalRepoForAgenticWorkflow/pull/1"
+        repo_or_pr_link = "https://github.com/sam253narula/ExperimentalRepoForAgenticWorkflow/pull/5"
 
     report = code_review_workflow(repo_or_pr_link)
     # print(report)
