@@ -21,7 +21,7 @@ def perplexity_analyze(prompt):
         "Content-Type": "application/json"
     }
     data = {
-        "model": "llama-3.1-sonar-small-128k-chat",
+        "model": "sonar-pro",
         "messages": [{"role": "user", "content": prompt}]
     }
     response = requests.post(url, json=data, headers=headers)
