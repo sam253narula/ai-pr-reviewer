@@ -26,5 +26,5 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         PERPLEXITY_API_KEY: ${{ inputs.perplexity_api_key }}
         MODEL: ${{ inputs.model }}
-      run: python ${{ github.action_path }}/GithubPRReviewWorkflow.py ${{ github.event.pull_request.html_url }} {{ MODEL }}
+      run: python ${{ github.action_path }}/GithubPRReviewWorkflow.py ${{ github.event.pull_request.html_url }} ${{ inputs.model }}
       shell: bash
