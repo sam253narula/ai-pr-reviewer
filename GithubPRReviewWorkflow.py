@@ -14,14 +14,14 @@ client = OpenAI(api_key=PERPLEXITY_API_KEY, base_url="https://api.perplexity.ai"
 # Initialize GitHub client
 g = Github(GITHUB_TOKEN)
 
-def perplexity_analyze(prompt):
+def perplexity_analyze(prompt, model):
     url = "https://api.perplexity.ai/chat/completions"
     headers = {
         "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
         "Content-Type": "application/json"
     }
     data = {
-        "model": "sonar-pro",
+        "model": model,
         "messages": [{"role": "user", "content": prompt}]
     }
     response = requests.post(url, json=data, headers=headers)
@@ -32,7 +32,7 @@ def get_pr_diff(repo_name, pr_number):
     pr = repo.get_pull(pr_number)
     return pr.get_files()
 
-def analyze_code(file_content):
+def analyze_code(file_content, model):
     prompt = f"""
     Analyze the following code for:
     1. Unreachable code
@@ -46,21 +46,21 @@ def analyze_code(file_content):
 
     Provide a detailed report on each aspect.
     """
-    return perplexity_analyze(prompt)
+    return perplexity_analyze(prompt, model)
 
-def generate_report(repo_name, pr_number):
+def generate_report(repo_name, pr_number, model):
     files = get_pr_diff(repo_name, pr_number)
     report = []
 
     for file in files:
         if file.filename.endswith(('.py', '.js', '.java', '.cpp')):  # Add more extensions as needed
-            analysis = analyze_code(file.patch)
+            analysis = analyze_code(file.patch, model)
             report.append(f"File: {file.filename}\n{analysis}\n")
 
     return "\n".join(report)
 
 
-def code_review_workflow(input_link):
+def code_review_workflow(input_link, model):
     if "pull" in input_link:
         # It's a PR link
         repo_name, pr_number = parse_pr_link(input_link)
@@ -69,7 +69,7 @@ def code_review_workflow(input_link):
         repo_name = parse_repo_link(input_link)
         pr_number = get_latest_pr(repo_name)
 
-    report = generate_report(repo_name, pr_number)
+    report = generate_report(repo_name, pr_number, model)
 
     # Post the report as a comment on the PR
     post_comment(repo_name, pr_number, report)
@@ -106,10 +106,10 @@ def post_comment(repo_name, pr_number, comment):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         repo_or_pr_link = sys.argv[1]
+        model = sys.argv[2]
     else:
         repo_or_pr_link = "https://github.com/sam253narula/ExperimentalRepoForAgenticWorkflow/pull/5"
+        model = "sonar"
 
-    report = code_review_workflow(repo_or_pr_link)
+    report = code_review_workflow(repo_or_pr_link, model)
     # print(report)
-
-
