@@ -7,6 +7,9 @@ inputs:
   perplexity_api_key:
     description: 'Perplexity API Key'
     required: true
+  model:
+    description: 'Model to use'
+    required: true
 runs:
   using: 'composite'
   steps:
