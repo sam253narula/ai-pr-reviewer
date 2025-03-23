@@ -105,8 +105,10 @@ def post_comment(repo_name, pr_number, comment):
 # Example usage
 if __name__ == "__main__":
     if len(sys.argv) > 1:
+        print(f"sys.argv: {sys.argv}")
         repo_or_pr_link = sys.argv[1]
         model = sys.argv[2]
+        print(f"model: {model}")
     else:
         repo_or_pr_link = "https://github.com/sam253narula/ExperimentalRepoForAgenticWorkflow/pull/5"
         model = "sonar"
